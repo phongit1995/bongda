@@ -45,7 +45,7 @@ app.get('/', checkIsLogin,async(req,res)=>{
             $ne:req.user._id
         }
     })
-    console.log(listBong);
+    // console.log(listBong);
     res.render('index',{message:req.flash('message'),user:req.user,listBong:listBong});
 })
 app.get('/login',(req,res)=>{
@@ -87,6 +87,7 @@ app.get('/bat/:id/:type',checkIsLogin,async(req,res)=>{
         await bongdaModels.findByIdAndUpdate(bong._id,{status:true,bat:typebat,idReceive:req.user._id});
         return res.redirect('/');
     }else {
+        console.log(bong);
         await userModels.findByIdAndUpdate(req.user._id,{xu:req.user.xu-bong.xu});
         let usersSend = await userModels.findById(bong.idsend);
         await userModels.findByIdAndUpdate(usersSend._id,{xu:usersSend.xu+bong.xu+xuadd});
