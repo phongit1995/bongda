@@ -87,9 +87,12 @@ app.get('/bat/:id/:type',checkIsLogin,async(req,res)=>{
         await bongdaModels.findByIdAndUpdate(bong._id,{status:true,bat:typebat,idReceive:req.user._id});
         return res.redirect('/');
     }else {
-        await userModels.findByIdAndUpdate(req.user._id,{xu:req.user.xu-xuadd});
-        req.flash('message',{error:`Bắt Hụt Bạn Bị Trừ  : ${xuadd} xu`});
+        await userModels.findByIdAndUpdate(req.user._id,{xu:req.user.xu-bong.xu});
+        let usersSend = await userModels.findById(bong.idsend);
+        await userModels.findByIdAndUpdate(usersSend._id,{xu:usersSend.xu+bong.xu+xuadd});
+        req.flash('message',{error:`Bắt Hụt Bạn Bị Trừ  : ${bong.xu} xu`});
         await bongdaModels.findByIdAndUpdate(bong._id,{status:true,bat:typebat,idReceive:req.user._id});
+
         return res.redirect('/');
     }
 })
