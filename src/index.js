@@ -51,6 +51,10 @@ app.get('/', checkIsLogin,async(req,res)=>{
 app.get('/login',(req,res)=>{
     res.render('login');
 })
+app.get('/logout',(req,res)=>{
+    req.logout();
+    res.redirect("/");
+})
 app.post('/login', passport.authenticate('local', { successRedirect: '/',
 failureRedirect: '/login' }))
 app.listen(process.env.PORT,()=>{
